@@ -1,0 +1,18 @@
+version: '3'
+services:
+  db:
+    build: ./db
+    container_name: medical_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+
+  ztna-agent:
+    build: ./ztna-agent
+    container_name: ztna_agent
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
