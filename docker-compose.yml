@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  nginx-emr:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./html:/usr/share/nginx/html
+    environment:
+      - DATABASE_API_URL=http://YOUR_DATABASE_INSTANCE_IP:3000
+    restart: unless-stopped
+    networks:
+      - emr-network
+
+networks:
+  emr-network:
+    driver: bridge
