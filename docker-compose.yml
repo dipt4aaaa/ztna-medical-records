@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres-emr:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: emr_database
+      POSTGRES_USER: emr_user
+      POSTGRES_PASSWORD: emr_secure_password_2024
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - emr-network
+
+  api-server:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://emr_user:emr_secure_password_2024@postgres-emr:5432/emr_database
+      - API_PORT=3000
+      - CORS_ORIGIN=http://YOUR_WEBSERVER_INSTANCE_IP
+    depends_on:
+      - postgres-emr
+    volumes:
+      - ./healthcare_dataset.csv:/app/data/healthcare_dataset.csv
+    restart: unless-stopped
+    networks:
+      - emr-network
+
+volumes:
+  postgres_data:
+
+networks:
+  emr-network:
+    driver: bridge
