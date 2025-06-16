@@ -25,6 +25,7 @@ services:
       - DATABASE_URL=postgresql://emr_user:emr_secure_password_2024@postgres-emr:5432/emr_database
       - API_PORT=3000
       - CORS_ORIGIN=http://YOUR_WEBSERVER_INSTANCE_IP
+      - DB_SSL=false
     depends_on:
       - postgres-emr
     volumes:
