@@ -82,8 +82,14 @@ git clone --single-branch --branch database https://github.com/dipt4aaaa/ztna-me
 environment:
   - CORS_ORIGIN=http://YOUR_WEBSERVER_INSTANCE_IP
 ```
+3. **NPM Install**:
 
-3. **Deploy**:
+```bash
+npm install
+```
+
+
+4. **Deploy**:
 
 ```bash
 docker-compose up -d
